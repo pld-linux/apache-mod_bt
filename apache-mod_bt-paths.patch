@@ -1,0 +1,39 @@
+diff -ur mod_bt-0.0.4-orig/config.mk mod_bt-0.0.4/config.mk
+--- mod_bt-0.0.4-orig/config.mk	2004-05-25 17:06:49.000000000 -0600
++++ mod_bt-0.0.4/config.mk	2004-05-26 10:12:29.915697954 -0600
+@@ -1,7 +1,7 @@
+ export APXS=apxs
+ export APR_CONFIG=apr-config
+ export CC=gcc
+-export CFLAGS=-g -Werror -Wall -Wimplicit-function-declaration
++export CFLAGS=-g -Werror -Wall -Wimplicit-function-declaration -I/usr/include/db4.2
+ export CPPFLAGS=`$(APR_CONFIG) --cppflags --includes`
+ export LDSHARED=gcc -shared
+ export LDFLAGS=-g `$(APR_CONFIG) --ldflags`
+diff -ur mod_bt-0.0.4-orig/config.mk~ mod_bt-0.0.4/config.mk~
+--- mod_bt-0.0.4-orig/config.mk~	2004-05-25 16:18:15.000000000 -0600
++++ mod_bt-0.0.4/config.mk~	2004-05-26 10:12:29.916697782 -0600
+@@ -11,8 +11,8 @@
+ export BUILD_APACHE2=1
+ export BUILD_PERL=1
+ export BUILD_MODPERL=1
+-export PERL_LIB=/opt/apache2/perl5lib
+-export PERL_PREFIX=/opt/apache2
++#export PERL_LIB=/opt/apache2/perl5lib
++#export PERL_PREFIX=/opt/apache2
+ export PERL5LIB:=$(PERL5LIB):$(PERL_LIB)
+ export POD2HTML=pod2html
+ 
+diff -ur mod_bt-0.0.4-orig/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL
+--- mod_bt-0.0.4-orig/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL	2004-05-24 17:38:50.000000000 -0600
++++ mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL	2004-05-26 10:13:06.679370461 -0600
+@@ -15,7 +15,7 @@
+        AUTHOR         => 'Tyler \'Crackerjack\' MacDonald <faraway@>') : ()),
+     LIBS              => ['-ldb-4.2', '-lapr-0'], # e.g., '-lm'
+     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
+-    INC               => '-I. -I.. -I../..' . `$ENV{APR_CONFIG} --includes`, # e.g., '-I. -I/usr/include/other'
++    INC               => '-I. -I.. -I../.. -I/usr/include/db4.2' . `$ENV{APR_CONFIG} --includes`, # e.g., '-I. -I/usr/include/other'
+     dynamic_lib 		=> { OTHERLDFLAGS	  => "$apr ../libbtt.a" }
+ 	# Un-comment this if you add C files to link with later:
+     # OBJECT            => '../libbtt.a $(O_FILES)', # link all the C files too
+Only in mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT: Makefile.PL~
