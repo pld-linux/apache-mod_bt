@@ -1,14 +1,15 @@
 %define		mod_name	bt
 %define 	apxs		/usr/sbin/apxs
 Summary:	Apache BitTorrent tracker
+Summary(pl):	Tracker BitTorrenta w formie modu³u Apache'a
 Name:		apache-mod_%{mod_name}
 Version:	0.0.4
 Release:	1
 License:	GPL
 Group:		Networking/Daemons
-Source0: http://www.crackerjack.net/mod_%{mod_name}/mod_%{mod_name}-0.0.4.tgz
+Source0:	http://www.crackerjack.net/mod_%{mod_name}/mod_%{mod_name}-0.0.4.tgz
 # Source0-md5:	dfb1f1a1aaae3313d8e1056a3d317740
-Patch0:	%{name}-paths.patch
+Patch0:		%{name}-paths.patch
 URL:		http://www.crackerjack.net/mod_bt/
 BuildRequires:	%{apxs}
 BuildRequires:	apache-devel
@@ -20,7 +21,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
 
 %description
-Apache-based BitTorrent Tracker
+Apache-based BitTorrent Tracker.
+
+%description -l pl
+Oparty na Apache'u tracker BitTorrenta.
 
 %prep
 %setup -q -n mod_%{mod_name}-%{version}
