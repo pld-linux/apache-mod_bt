@@ -12,7 +12,7 @@ Patch0:	%{name}-paths.patch
 URL:		http://www.crackerjack.net/mod_bt/
 BuildRequires:	%{apxs}
 BuildRequires:	apache-devel
-BuildRequires:	db4.2-devel
+BuildRequires:	db-devel >= 4.2.52
 Requires(post,preun):	%{apxs}
 Requires:	apache
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
