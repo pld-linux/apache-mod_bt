@@ -26,14 +26,33 @@ diff -ur mod_bt-0.0.4-orig/config.mk~ mod_bt-0.0.4/config.mk~
  
 diff -ur mod_bt-0.0.4-orig/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL
 --- mod_bt-0.0.4-orig/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL	2004-05-24 17:38:50.000000000 -0600
-+++ mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL	2004-05-26 10:13:06.679370461 -0600
-@@ -15,7 +15,7 @@
++++ mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT/Makefile.PL	2005-12-26 21:04:41.000000000 +0200
+@@ -5,6 +5,10 @@
+ 
+ my $apr = `$ENV{APR_CONFIG} --link-ld`;
+ chomp($apr);
++my $apr_includes = `$ENV{APR_CONFIG} --includes`;
++chomp($apr_includes);
++my $apu_includes = `apu-1-config --includes`;
++chomp($apu_includes);
+ 
+ WriteMakefile(
+     NAME              => 'Net::BitTorrent::LibBTT',
+@@ -15,7 +19,7 @@
         AUTHOR         => 'Tyler \'Crackerjack\' MacDonald <faraway@>') : ()),
      LIBS              => ['-ldb-4.2', '-lapr-0'], # e.g., '-lm'
      DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
 -    INC               => '-I. -I.. -I../..' . `$ENV{APR_CONFIG} --includes`, # e.g., '-I. -I/usr/include/other'
-+    INC               => '-I. -I.. -I../.. -I/usr/include/db4.2' . `$ENV{APR_CONFIG} --includes`, # e.g., '-I. -I/usr/include/other'
++    INC               => "-I. -I.. -I../.. -I/usr/include/db4.2 $apr_includes $apu_includes",
      dynamic_lib 		=> { OTHERLDFLAGS	  => "$apr ../libbtt.a" }
  	# Un-comment this if you add C files to link with later:
      # OBJECT            => '../libbtt.a $(O_FILES)', # link all the C files too
-Only in mod_bt-0.0.4/src/libbtt/Net-BitTorrent-LibBTT: Makefile.PL~
+--- mod_bt-0.0.4/config.mk~	2005-12-26 20:53:20.000000000 +0200
++++ mod_bt-0.0.4/config.mk	2005-12-26 20:53:45.000000000 +0200
+@@ -1,5 +1,5 @@
+ export APXS=apxs
+-export APR_CONFIG=apr-config
++export APR_CONFIG=apr-1-config
+ export CC=gcc
+ export CFLAGS=-g -Werror -Wall -Wimplicit-function-declaration -I/usr/include/db4.2
+ export CPPFLAGS=`$(APR_CONFIG) --cppflags --includes`
