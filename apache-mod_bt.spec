@@ -4,21 +4,21 @@ Summary:	Apache BitTorrent tracker
 Summary(pl):	Tracker BitTorrenta w formie modu³u Apache'a
 Name:		apache-mod_%{mod_name}
 Version:	0.0.4
-Release:	1
+Release:	0.1
 License:	GPL
 Group:		Networking/Daemons
-Source0:	http://www.crackerjack.net/mod_%{mod_name}/mod_%{mod_name}-0.0.4.tgz
+Source0:	http://www.crackerjack.net/mod_%{mod_name}/mod_%{mod_name}-%{version}.tgz
 # Source0-md5:	dfb1f1a1aaae3313d8e1056a3d317740
 Patch0:		%{name}-paths.patch
 URL:		http://www.crackerjack.net/mod_bt/
 BuildRequires:	%{apxs}
-BuildRequires:	apache-devel
+BuildRequires:	apache-devel >= 2.0
 BuildRequires:	db-devel >= 4.2.52
-Requires(post,preun):	%{apxs}
-Requires:	apache
+Requires:	apache(modules-api) = %apache_modules_api
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
+%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
+%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
 
 %description
 Apache-based BitTorrent Tracker.
@@ -35,22 +35,22 @@ Oparty na Apache'u tracker BitTorrenta.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_pkglibdir}
+install -d $RPM_BUILD_ROOT{%{_pkglibdir},%{_sysconfdir}/httpd.conf}
 
 install mod_%{mod_name}.so $RPM_BUILD_ROOT%{_pkglibdir}
+echo 'LoadModule %{mod_name}_module modules/mod_%{mod_name}.so' > \
+	$RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf/90_mod_%{mod_name}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%{apxs} -e -a -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-	%{apxs} -e -A -n %{mod_name} %{_pkglibdir}/mod_%{mod_name}.so 1>&2
 	if [ -f /var/lock/subsys/httpd ]; then
 		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
@@ -59,4 +59,5 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc README
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf/*_mod_%{mod_name}.conf
 %attr(755,root,root) %{_pkglibdir}/*
