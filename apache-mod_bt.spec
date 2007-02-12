@@ -1,7 +1,7 @@
 %define		mod_name	bt
 %define 	apxs		/usr/sbin/apxs
 Summary:	Apache BitTorrent tracker
-Summary(pl.UTF-8):   Tracker BitTorrenta w formie modułu Apache'a
+Summary(pl.UTF-8):	Tracker BitTorrenta w formie modułu Apache'a
 Name:		apache-mod_%{mod_name}
 Version:	0.0.4
 Release:	0.1
