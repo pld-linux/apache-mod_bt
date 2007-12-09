@@ -12,7 +12,7 @@ Source0:	http://www.crackerjack.net/mod_bt/mod_%{mod_name}-%{version}.tgz
 # Source0-md5:	dfb1f1a1aaae3313d8e1056a3d317740
 Patch0:		%{name}-paths.patch
 URL:		http://www.crackerjack.net/mod_bt/
-BuildRequires:	apache-apxs >= 2.0
+BuildRequires:	%{apxs}
 BuildRequires:	apache-devel >= 2.0
 BuildRequires:	db-devel >= 4.2.52
 BuildRequires:	rpmbuild(macros) >= 1.268
