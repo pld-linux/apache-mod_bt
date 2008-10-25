@@ -6,7 +6,7 @@ Name:		apache-mod_%{mod_name}
 Version:	0.0.4
 Release:	0.1
 License:	GPL
-Group:		Networking/Daemons
+Group:		Networking/Daemons/HTTP
 #Source0Download: http://www.crackerjack.net/mod_bt/download.html
 Source0:	http://www.crackerjack.net/mod_bt/mod_%{mod_name}-%{version}.tgz
 # Source0-md5:	dfb1f1a1aaae3313d8e1056a3d317740
